@@ -1,0 +1,26 @@
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+
+        //Since it is a perfect binary tree, the traversal will be node->left, assuming if there is a left, there is definitely a right node
+
+        Node *prev = root, *curr;
+
+        while(prev) { //Two while loops here, first for going twards left
+          
+           curr = prev;
+           while(curr && curr->left) { //Second while for connecting  horizontal next pointers.
+              
+              curr->left->next = curr->right; //Simple, connect left child to right child
+
+              if(curr->next) { //Now connect rightmode node to same level leftmost node
+                 curr->right->next = curr->next->left;
+              }
+              curr = curr->next; //Mark this is the next pointer of binay tree not LL
+           }   
+           prev = prev->left; //Here we keep going towards left
+        }
+        return root;       
+    }
+};
