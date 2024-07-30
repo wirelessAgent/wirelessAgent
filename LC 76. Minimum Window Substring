@@ -1,0 +1,47 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+
+        int n = s.length();
+
+        if(t.length() > n)
+           return "";
+
+        unordered_map<char, int> mp;
+
+        //Store string t in the map with its frequency
+        for(char ch : t)
+           mp[ch]++;
+
+        int requiredCount = t.length();
+        int i = 0, j = 0; //Sliding window
+        int minWindowSize = INT_MAX;
+        int start_i = 0; //i will keep moving right, this start_i will hold the valid index 
+
+        while(j < n) { //Two While loops
+            char ch = s[j];
+
+            if(mp[ch] > 0)
+               requiredCount--; //We found one in the map
+
+            mp[ch]--; //Eventually we have to find all, so keep decreasing
+
+            while(requiredCount == 0) { //As soon as you find one answer, store start_i and 
+                //start shrinking the window to find the minimum window answer
+                int currWindowSize = j-i+1; //This is current answer
+
+                if(minWindowSize > currWindowSize) {
+                    minWindowSize = currWindowSize;
+                    start_i = i;
+                }
+                mp[s[i]]++; //Slide right to find smaller window, means increase the count of leftmost char (from i) in the map
+                if(mp[s[i]] > 0) { //Now again we need the reqCount to be 0 to find all of t
+                    requiredCount++;
+                }
+                i++;
+            }
+            j++; //Outside inner while loop thats sliding the window after finding at least one answer
+        }
+        return minWindowSize == INT_MAX ? "" : s.substr(start_i, minWindowSize);
+    }
+};
