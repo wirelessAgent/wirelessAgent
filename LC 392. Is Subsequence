@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isSubsequence(string s, string t) { //T:O(n), S: O(n)
+
+       int small =0, big = 0;
+
+       while(small < s.length() && big < t.length()) {
+          if(s[small] == t[big]) {
+             small++; //Increase only when found
+          }
+          big++; //Keep moving
+       }
+       return small == s.length();
+    }
+};
