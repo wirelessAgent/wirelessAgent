@@ -1,0 +1,23 @@
+class Solution { 
+public:
+    double findMaxAverage(vector<int>& nums, int k) { //T:O(n), S:O(n)
+       
+        double currSum = 0, maxSum = 0;
+
+        //Sliding window. First add all k, then slide the window
+        for(int i = 0; i < k; i++) { 
+          currSum  += nums[i];
+        }
+        maxSum = currSum; //Store maxSum of k
+ 
+         //Now from k, keep removing the left by sliding the window, and keep adding right
+         for(int i = k; i < nums.size(); i++) {
+            //Sub the left elem and add the right elem one by one, and compare
+            currSum += nums[i];
+            currSum = currSum - nums[i-k]; //i starts from k itself
+
+            maxSum = max(maxSum, currSum);
+         }
+        return maxSum/k; //Avg is asked
+    }
+};
